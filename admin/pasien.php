@@ -30,14 +30,23 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
             <a class="nav-link" href="#">Home</a>
           </li>
           <li class="nav-item active">
+            <a class="nav-link" href="tambahuser.php">Users</a>
+          </li>
+          <li class="nav-item active">
             <a class="nav-link" href="logout.php">Log Out</a>
           </li>
+          
         </ul>
       </div>
     </nav>
     <div class="row mt-3">
       <div class="col">
         <h3>Tabel Pasien</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <a href="tambahpasien.php" class="btn btn-primary btn-sm d-flex justify-content-center">Tambah Data</a>
       </div>
     </div>
     <div class="row mt-3">
@@ -50,6 +59,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
               <th>Nama Pasien</th>
               <th>Jenis Kelamin</th>
               <th>Alamat</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -65,6 +75,32 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
               <td><?= $row['nmPasien']; ?></td> 
               <td><?= $row['jk']; ?></td>
               <td><?= $row['alamat']; ?></td>
+              <td>
+                <a href="editpasien.php?edit=<?= $row['idPasien']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                <!-- Tombol Hapus -->
+                <a href="#" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusModal<?= $row['idPasien']; ?>">Hapus</a>
+
+                <!-- Modal Hapus -->
+                <div class="modal fade" id="hapusModal<?= $row['idPasien']; ?>" tabindex="-1" role="dialog" aria-labelledby="hapusModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="hapusModalLabel">Konfirmasi Hapus</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Anda yakin ingin menghapus data ini?</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <a href="koneksi.php?idPasien=<?= $row['idPasien']; ?>" class="btn btn-danger">Hapus</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
             </tr>
             <?php } ?>
           </tbody>

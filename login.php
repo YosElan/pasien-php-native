@@ -13,10 +13,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = mysqli_query($koneksi, $query);
 
     if ($result && mysqli_num_rows($result) === 1) {
-        // Jika data login cocok, buat sesi dan arahkan ke halaman index
-        $_SESSION['logged_in'] = true;
-        header("Location: pasien.php");
-        exit;
+        // Ambil data pengguna
+        $row = mysqli_fetch_assoc($result);
+        
+        // Cek peran (role) pengguna
+        if ($row['role'] === 'admin') {
+            // Jika peran adalah admin, arahkan ke halaman admin/data.php
+            $_SESSION['logged_in'] = true;
+            header("Location: admin/pasien.php");
+            exit;
+        } else {
+            // Jika peran adalah user, arahkan ke halaman data.php
+            $_SESSION['logged_in'] = true;
+            header("Location: pasien.php");
+            exit;
+        }
     } else {
         // Jika data login tidak cocok, tampilkan pesan error
         $error_message = "Username atau password salah!";
